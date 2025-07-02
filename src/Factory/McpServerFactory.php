@@ -21,7 +21,6 @@ use Symfony\Component\Cache\Psr16Cache;
 
 final readonly class McpServerFactory implements ServerFactoryInterface
 {
-
     /**
      * @param 'array'|'cache' $sessionDriver
      */
