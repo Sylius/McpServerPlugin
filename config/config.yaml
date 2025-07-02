@@ -1,5 +1,5 @@
 parameters:
-    env(SYLIUS_MCP_SERVER_API_SHOP_BASE_URI): 'https://localhost:8010/api/v2/shop/'
+    env(SYLIUS_MCP_SERVER_API_SHOP_BASE_URI): 'https://localhost:8000/api/v2/shop/'
     sylius_mcp_server.api.shop_base_uri: '%env(SYLIUS_MCP_SERVER_API_SHOP_BASE_URI)%'
 
 framework:
