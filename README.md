@@ -40,6 +40,13 @@ This installation instruction assumes that you're using Symfony Flex.
     composer require sylius/mcp-server-plugin
   ```
 
+2. Add configuration file `config/packages/sylius_mcp_server.yaml`:
+
+  ```yaml
+  imports:
+        - { resource: "@SyliusMcpServerPlugin/config/config.yaml" }
+  ```
+
 **Clear application cache by using command:**
 
   ```bash
