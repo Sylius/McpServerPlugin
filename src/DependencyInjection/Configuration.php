@@ -18,13 +18,73 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    /**
-     * @psalm-suppress UnusedVariable
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('acme_sylius_example');
+        $treeBuilder = new TreeBuilder('sylius_mcp_server');
         $rootNode = $treeBuilder->getRootNode();
+
+        $rootNode
+            ->children()
+                ->arrayNode('server')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('name')->defaultValue('Sylius MCP Server')->end()
+                        ->scalarNode('version')->defaultValue('0.1.0')->end()
+
+                        ->arrayNode('transport')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('host')->defaultValue('127.0.0.1')->end()
+                                ->integerNode('port')->defaultValue(8080)->end()
+                                ->scalarNode('prefix')->defaultValue('mcp')->end()
+                                ->booleanNode('enable_json_response')->defaultFalse()->end()
+                                ->arrayNode('ssl')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->booleanNode('enabled')->defaultFalse()->end()
+                                        ->variableNode('context')
+                                            ->defaultValue([])
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+
+                        ->arrayNode('session')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->enumNode('driver')->values(['array', 'cache'])->defaultValue('cache')->end()
+                                ->integerNode('ttl')->defaultValue(3600)->end()
+                            ->end()
+                        ->end()
+
+                        ->arrayNode('discovery')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->arrayNode('locations')
+                                    ->prototype('array')
+                                        ->children()
+                                            ->scalarNode('base_path')->isRequired()->cannotBeEmpty()->end()
+                                            ->arrayNode('scan_dirs')
+                                                ->prototype('scalar')->end()
+                                                ->requiresAtLeastOneElement()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                    ->defaultValue([
+                                        [
+                                            'base_path' => '%sylius_mcp_server.plugin_root%',
+                                            'scan_dirs' => ['src/Tool'],
+                                        ],
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
+
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

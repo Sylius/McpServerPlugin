@@ -1,0 +1,21 @@
+parameters:
+    env(SYLIUS_MCP_SERVER_API_SHOP_BASE_URI): 'https://localhost:8010/api/v2/shop/'
+    sylius_mcp_server.api.shop_base_uri: '%env(SYLIUS_MCP_SERVER_API_SHOP_BASE_URI)%'
+
+framework:
+    cache:
+        pools:
+            cache.mcp_server:
+                adapter: cache.app
+    http_client:
+        scoped_clients:
+            sylius_mcp_server.http_client.api_shop:
+                base_uri: '%sylius_mcp_server.api.shop_base_uri%'
+                headers:
+                    - 'Accept: application/ld+json'
+                    - 'Content-Type: application/ld+json'
+            sylius_mcp_server.http_client.api_shop_merge_patch:
+                base_uri: '%sylius_mcp_server.api.shop_base_uri%'
+                headers:
+                    - 'Accept: application/ld+json'
+                    - 'Content-Type: application/merge-patch+json'

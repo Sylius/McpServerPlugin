@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="true" />
+
+        <service id="Sylius\McpServerPlugin\Tool\Channel\Fetch">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Currency\Fetch">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Product\Search">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Product\Fetch">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\ProductVariant\Search">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\ProductVariant\Fetch">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\AddItem">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\Complete">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop_merge_patch" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\Create">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\Fetch">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\PaymentMethodList">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\PaymentMethodSelect">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop_merge_patch" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\ShippingMethodList">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\ShippingMethodSelect">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop_merge_patch" />
+        </service>
+
+        <service id="Sylius\McpServerPlugin\Tool\Order\Update">
+            <argument type="service" id="sylius_mcp_server.http_client.api_shop" />
+        </service>
+    </services>
+</container>

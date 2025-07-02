@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="sylius_mcp_server.factory.mcp_server" class="Sylius\McpServerPlugin\Factory\McpServerFactory">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="cache.mcp_server" />
+            <argument type="service" id="logger" />
+            <argument>%sylius_mcp_server.server.name%</argument>
+            <argument>%sylius_mcp_server.server.version%</argument>
+            <argument>%sylius_mcp_server.server.session.driver%</argument>
+            <argument>%sylius_mcp_server.server.session.ttl%</argument>
+            <argument>%sylius_mcp_server.server.discovery.locations%</argument>
+        </service>
+        <service id="Sylius\McpServerPlugin\Factory\ServerFactoryInterface" alias="sylius_mcp_server.factory.mcp_server" />
+
+        <service id="sylius_mcp_server.factory.streamable_http_server_transport" class="Sylius\McpServerPlugin\Factory\StreamableHttpServerServerTransportFactory">
+            <argument>%sylius_mcp_server.server.transport.host%</argument>
+            <argument>%sylius_mcp_server.server.transport.port%</argument>
+            <argument>%sylius_mcp_server.server.transport.prefix%</argument>
+            <argument>%sylius_mcp_server.server.transport.enable_json_response%</argument>
+            <argument>%sylius_mcp_server.server.transport.ssl.enabled%</argument>
+            <argument>%sylius_mcp_server.server.transport.ssl.context%</argument>
+        </service>
+        <service id="Sylius\McpServerPlugin\Factory\ServerTransportFactoryInterface" alias="sylius_mcp_server.factory.streamable_http_server_transport" />
+    </services>
+</container>
