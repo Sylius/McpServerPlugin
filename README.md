@@ -36,9 +36,9 @@ This installation instruction assumes that you're using Symfony Flex.
 
 1. Require plugin with composer:
 
-    ```bash
+  ```bash
     composer require sylius/mcp-server-plugin
-    ```
+  ```
 
 **Clear application cache by using command:**
 
