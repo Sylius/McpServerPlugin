@@ -57,6 +57,7 @@ final readonly class McpServerFactory implements ServerFactoryInterface
             $server->discover(
                 basePath: $discoveryLocation['base_path'],
                 scanDirs: $discoveryLocation['scan_dirs'],
+                force: true,
             );
         }
 
