@@ -71,6 +71,12 @@ final class Configuration implements ConfigurationInterface
                                             ->end()
                                         ->end()
                                     ->end()
+                                    ->defaultValue([
+                                        [
+                                            'base_path' => '%sylius_mcp_server.plugin_root%',
+                                            'scan_dirs' => ['src/Tool'],
+                                        ],
+                                    ])
                                     ->beforeNormalization()
                                         ->always(function ($v) {
                                             $v[] = [
