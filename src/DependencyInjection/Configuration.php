@@ -83,6 +83,7 @@ final class Configuration implements ConfigurationInterface
                                                 'base_path' => '%sylius_mcp_server.plugin_root%',
                                                 'scan_dirs' => ['src/Tool'],
                                             ];
+
                                             return $v;
                                         })
                                     ->end()
