@@ -9,8 +9,8 @@
     "license": "proprietary",
     "require": {
         "php": "^8.2",
-        "php-mcp/server": "^3.2",
-        "sylius/sylius": "^2.1"
+        "sylius/sylius": "^2.1",
+        "symfony/mcp-bundle": "^0.3.0"
     },
     "require-dev": {
         "behat/behat": "^3.16",

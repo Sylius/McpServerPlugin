@@ -40,6 +40,32 @@ This installation instruction assumes that you're using Symfony Flex.
     composer require sylius/mcp-server-plugin
   ```
 
+2. Import the plugin configuration in `config/packages/_sylius.yaml`:
+
+  ```yaml
+  imports:
+      - { resource: "@SyliusMcpServerPlugin/config/config.yaml" }
+  ```
+
+3. Configure the MCP bundle in `config/packages/mcp.yaml` (see [symfony/mcp-bundle documentation](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html) for all options):
+
+  ```yaml
+  mcp:
+      app: 'Sylius MCP Server'
+      version: '0.1.0'
+      client_transports:
+          stdio: true
+          http: true
+  ```
+
+4. Import the MCP routes in `config/routes.yaml`:
+
+  ```yaml
+  mcp:
+      resource: .
+      type: mcp
+  ```
+
 **Clear application cache by using command:**
 
   ```bash
@@ -58,14 +84,14 @@ APIs, and systems. It allows an AI model to make structured tool calls — simil
 The MCP Server acts as a bridge between the language model and your application logic. It exposes a list of tools 
 (like “search for a product” or “create an order”) and executes them in response to requests from the AI.
 
-This plugin integrates Sylius with an MCP Server, enabling AI agents to interact with your store 
+This plugin integrates Sylius with an MCP Server, enabling AI agents to interact with your store
 (e.g., search products, check prices, start checkout).
 
-We use the official [php-mcp/server](https://github.com/php-mcp/server) package to provide the MCP server runtime.
+We use the official [symfony/mcp-bundle](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html) to provide the MCP server runtime.
 ```
 ┌────────────────┐                  ┌───────────────┐       ┌────────┐
 │  MCP Client    │◄────────────────►│  MCP Server   │◄─────►│ Sylius │
-│ (OpenAi, etc.) │ (Stdio/HTTP/SSE) │ (Tools, etc.) │ (API) │        │
+│ (OpenAi, etc.) │  (Stdio/HTTP)    │ (Tools, etc.) │ (API) │        │
 └────────────────┘                  └───────────────┘       └────────┘
 ```
 
@@ -73,50 +99,19 @@ To learn more, see the official MCP introduction at [modelcontextprotocol.io](ht
 
 ### Running the MCP Server
 
-You can run the server using the following command:
+#### Stdio Transport
 
   ```bash
-    bin/console sylius:mcp-server:start
+    bin/console mcp:server
   ```
 
-By default, the server runs at: http://localhost:8080/mcp and it uses **Streamable HTTP Transport**.
+#### HTTP Transport
+
+The HTTP endpoint is available at `/_mcp` (requires route configuration, see installation step 4).
 
 ### MCP Server Configuration
 
-Create a file `config/packages/sylius_mcp_server.yaml` and customize it if needed.
-Below is the default configuration:
-
-```yaml
-sylius_mcp_server:
-  server:
-    name:    'Sylius MCP Server'
-    version: '0.1.0'
-    transport:
-      host: 127.0.0.1
-      port: 8080
-      prefix: 'mcp'
-      enable_json_response: false
-      ssl:
-        enabled: false
-        context: []
-
-    session:
-      driver: cache
-      ttl: 3600
-
-    discovery:
-      locations:
-        - { base_path: '%sylius_mcp_server.plugin_root%', scan_dirs: ['src/Tool'] }
-```
-
-You can enable SSL support by setting `ssl.enabled` to `true` and configuring the appropriate SSL context.
-For details on how to configure the context, refer to the [SSL section in the php-mcp/server documentation](https://github.com/php-mcp/server?tab=readme-ov-file#ssl-context-configuration).
-
-### Transport
-
-By default, the server uses the Streamable HTTP Transport.
-You may implement your own transport by creating a custom factory that implements `Sylius\McpServerPlugin\Factory\ServerTransportFactoryInterface`.
-Then, override the transport in the McpServerCommand service definition.
+See installation step 3 for the basic configuration. For more options, refer to the [symfony/mcp-bundle documentation](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html).
 
 ### Sylius API 
 
@@ -163,18 +158,17 @@ These tools currently operate in guest mode only — `fetch_order` returns data 
 
 #### Adding custom tools
 
-You can extend the server with your own tools by creating PHP classes annotated with attributes like **#[McpTool]**.
-These tools will then be exposed to the MCP client just like the built-in ones.
+You can extend the server with your own tools by creating PHP classes annotated with the `#[McpTool]` attribute.
 
-To learn how to define and structure a tool, see the ["Defining MCP Elements" section of the php-mcp/server documentation](https://github.com/php-mcp/server?tab=readme-ov-file#-defining-mcp-elements).
+To learn how to define and structure a tool, see the [symfony/mcp-bundle documentation](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html).
 
-Once your tool is ready, make sure the plugin is configured to discover it:
+Register your tools as services with autoconfiguration in `config/services.yaml`:
+
 ```yaml
-sylius_mcp_server:
-  server:
-    discovery:
-      locations:
-        - { base_path: 'your_base_path', scan_dirs: ['your/custom/Tool/Directory'] }
+services:
+    App\Mcp\Tool\:
+        resource: '../src/Mcp/Tool/*'
+        autoconfigure: true
 ```
 
 ### Usage Example
@@ -187,7 +181,7 @@ You can use the server directly in [OpenAI Playground](https://platform.openai.c
 ![add_tool](doc/images/playground_one.png)
 
 2. Configure the tool with the following settings:
-   - **URL**: `http://localhost:8080/mcp` (or your ngrok URL)
+   - **URL**: `http://localhost:8080/_mcp` (or your ngrok URL)
    - **Label**: Sylius
    - **Authentication**: None
 ![configure_tool](doc/images/playground_two.png)

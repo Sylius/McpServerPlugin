@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\McpServerPlugin\Tool\Order;
 
-use PhpMcp\Server\Attributes\McpTool;
+use Mcp\Capability\Attribute\McpTool;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[McpTool(
@@ -23,6 +24,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 final readonly class AddItem
 {
     public function __construct(
+        #[Autowire(service: 'sylius_mcp_server.http_client.api_shop')]
         private HttpClientInterface $httpClient,
     ) {
     }
