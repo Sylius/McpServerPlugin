@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 return static function (ContainerConfigurator $container): void {
-    $services = $container->services()
-        ->defaults()
-            ->public()
-            ->autoconfigure()
-            ->autowire()
-    ;
+    $services = $container->services();
 
-    $services->load('Sylius\\McpServerPlugin\\Tool\\', '../src/Tool/*');
-    $services->load('Sylius\\McpServerPlugin\\Loader\\', '../src/Loader/*');
+    $services->load('Sylius\\McpServerPlugin\\Tool\\', '../src/Tool/*')
+        ->autowire()
+        ->autoconfigure();
+
+    $services->load('Sylius\\McpServerPlugin\\Loader\\', '../src/Loader/*')
+        ->autowire()
+        ->autoconfigure();
 };

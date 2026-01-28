@@ -40,36 +40,40 @@ This installation instruction assumes that you're using Symfony Flex.
     composer require sylius/mcp-server-plugin
   ```
 
-2. Import the plugin configuration in `config/packages/_sylius.yaml`:
+**Clear application cache by using command:**
+
+  ```bash
+    bin/console cache:clear
+  ```
+
+---
+
+## Without Symfony Flex
+
+1. Require the plugin:
+
+  ```bash
+  composer require sylius/mcp-server-plugin
+  ```
+
+2. Import the plugin configuration in `config/packages/sylius_mcp_server.yaml`:
 
   ```yaml
   imports:
       - { resource: "@SyliusMcpServerPlugin/config/config.yaml" }
   ```
 
-3. Configure the MCP bundle in `config/packages/mcp.yaml` (see [symfony/mcp-bundle documentation](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html) for all options):
+3. Import the routes in `config/routes.yaml`:
 
   ```yaml
-  mcp:
-      app: 'Sylius MCP Server'
-      version: '0.1.0'
-      client_transports:
-          stdio: true
-          http: true
+  sylius_mcp_server:
+      resource: '@SyliusMcpServerPlugin/config/routes.yaml'
   ```
 
-4. Import the MCP routes in `config/routes.yaml`:
-
-  ```yaml
-  mcp:
-      resource: .
-      type: mcp
-  ```
-
-**Clear application cache by using command:**
+4. Clear application cache:
 
   ```bash
-    bin/console cache:clear
+  bin/console cache:clear
   ```
 
 ---
@@ -84,7 +88,7 @@ APIs, and systems. It allows an AI model to make structured tool calls — simil
 The MCP Server acts as a bridge between the language model and your application logic. It exposes a list of tools 
 (like “search for a product” or “create an order”) and executes them in response to requests from the AI.
 
-This plugin integrates Sylius with an MCP Server, enabling AI agents to interact with your store
+This plugin integrates Sylius with an MCP Server, enabling AI agents to interact with your store 
 (e.g., search products, check prices, start checkout).
 
 We use the official [symfony/mcp-bundle](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html) to provide the MCP server runtime.
@@ -107,11 +111,11 @@ To learn more, see the official MCP introduction at [modelcontextprotocol.io](ht
 
 #### HTTP Transport
 
-The HTTP endpoint is available at `/_mcp` (requires route configuration, see installation step 4).
+The HTTP endpoint is available at `/_mcp`.
 
 ### MCP Server Configuration
 
-See installation step 3 for the basic configuration. For more options, refer to the [symfony/mcp-bundle documentation](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html).
+For more options, refer to the [symfony/mcp-bundle documentation](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html).
 
 ### Sylius API 
 

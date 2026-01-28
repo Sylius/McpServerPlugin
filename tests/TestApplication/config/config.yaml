@@ -1,15 +1,9 @@
 imports:
     - { resource: "@SyliusMcpServerPlugin/config/config.yaml" }
 
+framework:
+    test: true
+
 twig:
     paths:
         '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
-
-mcp:
-    app: 'Sylius MCP Server'
-    version: '0.1.0'
-    client_transports:
-        stdio: true
-        http: true
-    discovery:
-        scan_dirs: []
