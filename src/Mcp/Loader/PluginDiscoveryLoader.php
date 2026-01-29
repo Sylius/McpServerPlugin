@@ -11,18 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Sylius\McpServerPlugin\Loader;
+namespace Sylius\McpServerPlugin\Mcp\Loader;
 
 use Mcp\Capability\Discovery\Discoverer;
 use Mcp\Capability\Registry\Loader\LoaderInterface;
 use Mcp\Capability\RegistryInterface;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 final readonly class PluginDiscoveryLoader implements LoaderInterface
 {
     public function __construct(
-        private LoggerInterface $logger = new NullLogger(),
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -30,7 +29,7 @@ final readonly class PluginDiscoveryLoader implements LoaderInterface
     {
         $discoverer = new Discoverer($this->logger);
         $state = $discoverer->discover(
-            basePath: dirname(__DIR__, 2),
+            basePath: dirname(__DIR__, 3),
             directories: ['src/Tool'],
         );
 

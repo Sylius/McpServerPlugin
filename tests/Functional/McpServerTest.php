@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\McpServerPlugin\Functional;
 
-use Sylius\McpServerPlugin\Loader\PluginDiscoveryLoader;
+use Sylius\McpServerPlugin\Mcp\Loader\PluginDiscoveryLoader;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class McpServerTest extends KernelTestCase
