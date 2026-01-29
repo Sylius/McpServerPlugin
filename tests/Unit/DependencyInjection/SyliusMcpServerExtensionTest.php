@@ -13,11 +13,8 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\McpServerPlugin\Unit\DependencyInjection;
 
-use Doctrine\Bundle\MigrationsBundle\DependencyInjection\DoctrineMigrationsExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sylius\McpServerPlugin\DependencyInjection\SyliusMcpServerExtension;
-use SyliusLabs\DoctrineMigrationsExtraBundle\DependencyInjection\SyliusLabsDoctrineMigrationsExtraExtension;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 final class SyliusMcpServerExtensionTest extends AbstractExtensionTestCase
 {
@@ -28,7 +25,7 @@ final class SyliusMcpServerExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasParameter(
             'sylius_mcp_server.plugin_root',
-            dirname(__DIR__, 3)
+            dirname(__DIR__, 3),
         );
     }
 
@@ -43,7 +40,7 @@ final class SyliusMcpServerExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasParameter(
             'sylius_mcp_server.server.name',
-            'Test MCP Server'
+            'Test MCP Server',
         );
     }
 
@@ -58,7 +55,7 @@ final class SyliusMcpServerExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasParameter(
             'sylius_mcp_server.server.version',
-            '1.0.0'
+            '1.0.0',
         );
     }
 
@@ -151,7 +148,11 @@ final class SyliusMcpServerExtensionTest extends AbstractExtensionTestCase
                     'base_path' => 'test/path',
                     'scan_dirs' => ['src/Tool', 'src/Resource'],
                 ],
-            ]
+                [
+                    'base_path' => '%sylius_mcp_server.plugin_root%',
+                    'scan_dirs' => ['src/Tool'],
+                ],
+            ],
         );
     }
 

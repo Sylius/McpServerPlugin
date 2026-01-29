@@ -27,7 +27,7 @@ final class SyliusMcpServerConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals(
             [],
             ['server' => ['name' => 'Sylius MCP Server']],
-            'server.name'
+            'server.name',
         );
     }
 
@@ -37,7 +37,7 @@ final class SyliusMcpServerConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals(
             [['server' => ['name' => 'Custom MCP Server']]],
             ['server' => ['name' => 'Custom MCP Server']],
-            'server.name'
+            'server.name',
         );
     }
 
@@ -47,7 +47,7 @@ final class SyliusMcpServerConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals(
             [],
             ['server' => ['version' => '0.1.0']],
-            'server.version'
+            'server.version',
         );
     }
 
@@ -57,7 +57,7 @@ final class SyliusMcpServerConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals(
             [['server' => ['version' => '1.0.0']]],
             ['server' => ['version' => '1.0.0']],
-            'server.version'
+            'server.version',
         );
     }
 
@@ -77,10 +77,10 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                             'enabled' => false,
                             'context' => [],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
-            'server.transport'
+            'server.transport',
         );
     }
 
@@ -99,8 +99,8 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                             'enabled' => true,
                             'context' => ['verify_peer' => false],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]],
             [
                 'server' => [
@@ -113,8 +113,8 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                             'enabled' => true,
                             'context' => ['verify_peer' => false],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'server.transport',
         );
@@ -130,10 +130,10 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                     'session' => [
                         'driver' => 'cache',
                         'ttl' => 3600,
-                    ]
-                ]
+                    ],
+                ],
             ],
-            'server.session'
+            'server.session',
         );
     }
 
@@ -146,16 +146,16 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                     'session' => [
                         'driver' => 'array',
                         'ttl' => 7200,
-                    ]
-                ]
+                    ],
+                ],
             ]],
             [
                 'server' => [
                     'session' => [
                         'driver' => 'array',
                         'ttl' => 7200,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'server.session',
         );
@@ -175,10 +175,10 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                                 'scan_dirs' => ['src/Tool'],
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
-            'server.discovery.locations'
+            'server.discovery.locations',
         );
     }
 
@@ -195,8 +195,8 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                                 'scan_dirs' => ['src/Tool', 'src/Resource'],
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]],
             [
                 'server' => [
@@ -206,9 +206,13 @@ final class SyliusMcpServerConfigurationTest extends TestCase
                                 'base_path' => 'test/path',
                                 'scan_dirs' => ['src/Tool', 'src/Resource'],
                             ],
+                            [
+                                'base_path' => '%sylius_mcp_server.plugin_root%',
+                                'scan_dirs' => ['src/Tool'],
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'server.discovery.locations',
         );
