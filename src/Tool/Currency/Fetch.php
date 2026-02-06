@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\McpServerPlugin\Tool\Currency;
 
-use PhpMcp\Server\Attributes\McpTool;
+use Mcp\Capability\Attribute\McpTool;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[McpTool(

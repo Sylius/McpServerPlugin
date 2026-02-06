@@ -19,3 +19,12 @@ framework:
                 headers:
                     - 'Accept: application/ld+json'
                     - 'Content-Type: application/merge-patch+json'
+
+mcp:
+    app: 'Sylius MCP Server'
+    version: '0.2.0'
+    client_transports:
+        stdio: true
+        http: true
+    discovery:
+        scan_dirs: []

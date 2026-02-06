@@ -1,6 +1,9 @@
 imports:
     - { resource: "@SyliusMcpServerPlugin/config/config.yaml" }
 
+framework:
+    test: true
+
 twig:
     paths:
         '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
