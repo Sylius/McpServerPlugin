@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.2",
         "sylius/sylius": "^2.1",
-        "symfony/mcp-bundle": "^0.9"
+        "symfony/mcp-bundle": "^0.10"
     },
     "require-dev": {
         "behat/behat": "^3.16",
