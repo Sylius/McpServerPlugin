@@ -33,7 +33,6 @@ final class McpServerTest extends KernelTestCase
 
         $container = self::getContainer();
 
-        // Get the service to ensure it can be instantiated
         $loader = $container->get(PluginDiscoveryLoader::class);
 
         $this->assertInstanceOf(PluginDiscoveryLoader::class, $loader);
@@ -45,7 +44,7 @@ final class McpServerTest extends KernelTestCase
 
         $container = self::getContainer();
 
-        $this->assertTrue($container->has('mcp.server'));
+        $this->assertTrue($container->has('mcp.server.sylius_shop'));
     }
 
     public function testToolServicesAreAvailable(): void

@@ -41,7 +41,7 @@ final class McpServerHttpTest extends WebTestCase
         $this->assertSame('2.0', $response['jsonrpc']);
         $this->assertSame(1, $response['id']);
         $this->assertArrayHasKey('result', $response);
-        $this->assertSame('Sylius MCP Server', $response['result']['serverInfo']['name']);
+        $this->assertSame('Sylius Shop MCP Server', $response['result']['serverInfo']['name']);
     }
 
     public function testToolsListReturnsAllTools(): void
@@ -95,7 +95,7 @@ final class McpServerHttpTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/_mcp',
+            '/mcp/shop',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -130,7 +130,7 @@ final class McpServerHttpTest extends WebTestCase
 
         $this->client->request(
             'POST',
-            '/_mcp',
+            '/mcp/shop',
             [],
             [],
             $headers,
@@ -140,6 +140,6 @@ final class McpServerHttpTest extends WebTestCase
         $response = $this->client->getResponse();
         $content = $response->getContent();
 
-        return json_decode($content !== false ? $content : '{}', true);
+        return json_decode($content !== false ? $content : '{}', true) ?? [];
     }
 }

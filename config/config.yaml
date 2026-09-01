@@ -21,10 +21,15 @@ framework:
                     - 'Content-Type: application/merge-patch+json'
 
 mcp:
-    app: 'Sylius MCP Server'
-    version: '0.2.0'
-    client_transports:
-        stdio: true
-        http: true
-    discovery:
-        scan_dirs: []
+    servers:
+        sylius_shop:
+            name: 'Sylius Shop MCP Server'
+            version: '0.2.0'
+            transports:
+                stdio: true
+                http: true
+            http:
+                path: /mcp/shop
+            registry:
+                tools:
+                    - 'Sylius\McpServerPlugin\Tool\'

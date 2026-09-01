@@ -34,7 +34,7 @@ final class McpServerIntegrationTest extends TestCase
         $this->assertSame('2.0', $response['jsonrpc']);
         $this->assertSame(1, $response['id']);
         $this->assertArrayHasKey('result', $response);
-        $this->assertSame('Sylius MCP Server', $response['result']['serverInfo']['name']);
+        $this->assertSame('Sylius Shop MCP Server', $response['result']['serverInfo']['name']);
     }
 
     public function testToolsListReturnsAllTools(): void
@@ -129,6 +129,7 @@ final class McpServerIntegrationTest extends TestCase
             'php',
             'vendor/bin/console',
             'mcp:server',
+            'sylius_shop',
         ]);
         $process->setInput($input);
         $process->setTimeout(30);

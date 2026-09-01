@@ -37,7 +37,6 @@ final readonly class PluginDiscoveryLoader implements LoaderInterface
             $registry->registerTool(
                 $toolRef->tool,
                 $toolRef->handler,
-                isManual: true,
             );
         }
     }
