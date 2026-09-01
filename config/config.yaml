@@ -24,7 +24,7 @@ mcp:
     servers:
         sylius_shop:
             name: 'Sylius Shop MCP Server'
-            version: '0.2.0'
+            version: '0.3.0'
             transports:
                 stdio: true
                 http: true
