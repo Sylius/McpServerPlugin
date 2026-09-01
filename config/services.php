@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sylius\McpServerPlugin\Mcp\Loader\PluginDiscoveryLoader;
 use Sylius\McpServerPlugin\Tool\Channel\Fetch as ChannelFetch;
 use Sylius\McpServerPlugin\Tool\Currency\Fetch as CurrencyFetch;
 use Sylius\McpServerPlugin\Tool\Order\AddItem;
@@ -32,11 +31,6 @@ use Sylius\McpServerPlugin\Tool\ProductVariant\Search as ProductVariantSearch;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-
-    $services->set(PluginDiscoveryLoader::class)
-        ->args([service('logger')])
-        ->tag('monolog.logger', ['channel' => 'mcp'])
-        ->tag('mcp.loader');
 
     $services->set(ChannelFetch::class)
         ->args([service('sylius_mcp_server.http_client.api_shop')])
