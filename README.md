@@ -111,7 +111,7 @@ To learn more, see the official MCP introduction at [modelcontextprotocol.io](ht
 
 #### HTTP Transport
 
-The HTTP endpoint is available at `/_mcp`.
+The HTTP endpoint is available at `/mcp/shop`.
 
 ### MCP Server Configuration
 
@@ -185,7 +185,7 @@ You can use the server directly in [OpenAI Playground](https://platform.openai.c
 ![add_tool](doc/images/playground_one.png)
 
 2. Configure the tool with the following settings:
-   - **URL**: `http://localhost:8080/_mcp` (or your ngrok URL)
+   - **URL**: `http://localhost:8080/mcp/shop` (or your ngrok URL)
    - **Label**: Sylius
    - **Authentication**: None
 ![configure_tool](doc/images/playground_two.png)
