@@ -30,7 +30,12 @@ final class RequestAwareShopApiClient implements HttpClientInterface
 
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
-        return $this->clientWithDynamicBaseUri()->request($method, $url, $options);
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request !== null) {
+            $options['base_uri'] = $request->getSchemeAndHttpHost() . self::API_PATH;
+        }
+
+        return $this->client->request($method, $url, $options);
     }
 
     public function stream(iterable|ResponseInterface $responses, ?float $timeout = null): ResponseStreamInterface
@@ -44,17 +49,5 @@ final class RequestAwareShopApiClient implements HttpClientInterface
         $clone->client = $this->client->withOptions($options);
 
         return $clone;
-    }
-
-    private function clientWithDynamicBaseUri(): HttpClientInterface
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
-            return $this->client;
-        }
-
-        return $this->client->withOptions([
-            'base_uri' => $request->getSchemeAndHttpHost() . self::API_PATH,
-        ]);
     }
 }

@@ -10,11 +10,13 @@ framework:
     http_client:
         scoped_clients:
             sylius_mcp_server.http_client.api_shop.base:
+                scope: 'https?://[^/]+/api/v2/shop/'
                 base_uri: '%sylius_mcp_server.api.shop_base_uri%'
                 headers:
                     - 'Accept: application/ld+json'
                     - 'Content-Type: application/ld+json'
             sylius_mcp_server.http_client.api_shop_merge_patch.base:
+                scope: 'https?://[^/]+/api/v2/shop/'
                 base_uri: '%sylius_mcp_server.api.shop_base_uri%'
                 headers:
                     - 'Accept: application/ld+json'
