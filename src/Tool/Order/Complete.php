@@ -14,33 +14,30 @@ declare(strict_types=1);
 namespace Sylius\McpServerPlugin\Tool\Order;
 
 use Mcp\Capability\Attribute\McpTool;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 #[McpTool(
     name: 'complete_checkout',
-    description: 'complete_checkout(tokenValue, notes?) → raw JSON order after finishing checkout. The response still contains `"tokenValue"`; ChatGPT SHOULD always return that token to the customer so they can look up the order later.',
+    description: 'complete_checkout(tokenValue) → JSON with checkout_url. Returns a URL the customer must open in their browser to review and pay for the order. The cart is already filled with address, shipping and payment — the customer just clicks the final "Pay" or "Place order" button.',
 )]
 final readonly class Complete
 {
     public function __construct(
-        private HttpClientInterface $httpClient,
+        private RequestStack $requestStack,
     ) {
     }
 
     /**
      * @param string $tokenValue Cart/order token from create_order / fetch_order.
-     * @param string $notes      Optional customer notes for the order.
      */
-    public function __invoke(string $tokenValue, string $notes = ''): string
+    public function __invoke(string $tokenValue): string
     {
-        $response = $this->httpClient->request(
-            'PATCH',
-            sprintf('orders/%s/complete', urlencode($tokenValue)),
-            [
-                'json' => ['notes' => $notes],
-            ],
-        );
+        $baseUrl = $this->requestStack->getCurrentRequest()?->getSchemeAndHttpHost() ?? '';
+        $checkoutUrl = $baseUrl . '/checkout/resume/' . urlencode($tokenValue);
 
-        return $response->getContent();
+        return (string) json_encode([
+            'checkout_url' => $checkoutUrl,
+            'message' => 'Share this URL with the customer to complete the purchase in their browser: ' . $checkoutUrl,
+        ]);
     }
 }
