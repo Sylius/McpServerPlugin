@@ -93,7 +93,7 @@ return static function (ContainerConfigurator $container): void {
         ->tag('mcp.tool');
 
     $services->set(Complete::class)
-        ->autowire()
+        ->args([service('request_stack')])
         ->tag('mcp.tool');
 
     $services->set(PaymentMethodSelect::class)
