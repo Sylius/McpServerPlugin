@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Sylius\McpServerPlugin\Controller\Shop\CheckoutResumeAction;
+use Sylius\McpServerPlugin\HttpClient\RequestAwareShopApiClient;
 use Sylius\McpServerPlugin\Tool\Channel\Fetch as ChannelFetch;
 use Sylius\McpServerPlugin\Tool\Currency\Fetch as CurrencyFetch;
 use Sylius\McpServerPlugin\Tool\Order\AddItem;
@@ -31,6 +33,16 @@ use Sylius\McpServerPlugin\Tool\ProductVariant\Search as ProductVariantSearch;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
+
+    $services->set(CheckoutResumeAction::class)
+        ->autowire()
+        ->tag('controller.service_arguments');
+
+    $services->set('sylius_mcp_server.http_client.api_shop', RequestAwareShopApiClient::class)
+        ->args([service('sylius_mcp_server.http_client.api_shop.base'), service('request_stack')]);
+
+    $services->set('sylius_mcp_server.http_client.api_shop_merge_patch', RequestAwareShopApiClient::class)
+        ->args([service('sylius_mcp_server.http_client.api_shop_merge_patch.base'), service('request_stack')]);
 
     $services->set(ChannelFetch::class)
         ->args([service('sylius_mcp_server.http_client.api_shop')])
@@ -81,7 +93,7 @@ return static function (ContainerConfigurator $container): void {
         ->tag('mcp.tool');
 
     $services->set(Complete::class)
-        ->args([service('sylius_mcp_server.http_client.api_shop_merge_patch')])
+        ->args([service('request_stack')])
         ->tag('mcp.tool');
 
     $services->set(PaymentMethodSelect::class)

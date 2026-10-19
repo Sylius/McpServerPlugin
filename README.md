@@ -134,7 +134,19 @@ sylius_mcp_server.http_client.api_shop_merge_patch:
         - 'Content-Type: application/merge-patch+json'
 ```
 
-The default API base URI is http://localhost:8000/api/v2/shop/, and can be overridden using the environment variable `SYLIUS_MCP_SERVER_API_SHOP_BASE_URI`.
+The default API base URI is `https://localhost:8000/api/v2/shop/`, and can be overridden using the environment variable `SYLIUS_MCP_SERVER_API_SHOP_BASE_URI`.
+
+#### Environment variables
+
+| Variable                              | Default                          | Description                                                                                        |
+|---------------------------------------|----------------------------------|----------------------------------------------------------------------------------------------------|
+| `SYLIUS_MCP_SERVER_API_SHOP_BASE_URI` | `https://localhost:8000/api/v2/shop/` | Base URI of the Sylius Shop API (with trailing slash). Used by all tools to call the Sylius API. |
+
+Set it in your `.env.local`:
+
+```dotenv
+SYLIUS_MCP_SERVER_API_SHOP_BASE_URI=https://myshop.example.com/api/v2/shop/
+```
 
 ### Tools
 
@@ -143,7 +155,7 @@ The following tools are available out of the box:
 | Name                    | Description                                                   |
 |-------------------------|---------------------------------------------------------------|
 | add_item_to_order       | Adds an item to the order.                                    |
-| complete_checkout       | Completes the checkout process. (Final step)                  |
+| complete_checkout       | Returns a `checkout_url` for the customer to finish payment in their browser. (Final step) |
 | create_order            | Creates a new order.                                          |
 | fetch_channel           | Fetches a channel by code.                                    |
 | fetch_currency          | Fetches a currency by code.                                   |
@@ -160,6 +172,28 @@ The following tools are available out of the box:
 
 These tools currently operate in guest mode only — `fetch_order` returns data only if the order has no associated customer account.
 
+#### Checkout flow
+
+The typical checkout sequence driven by an AI agent looks like this:
+
+```
+create_order → add_item_to_order → update_order_address
+    → list_shipping_methods → select_shipping_method
+    → list_payment_methods  → select_payment_method
+    → complete_checkout
+```
+
+`complete_checkout` does **not** finalize the order itself — instead it returns a JSON payload containing a `checkout_url`:
+
+```json
+{
+  "checkout_url": "https://myshop.example.com/checkout/resume/TOKEN",
+  "message": "Share this URL with the customer to complete the purchase in their browser: ..."
+}
+```
+
+Opening that URL sets the cart in the customer's browser session and redirects them to the standard checkout summary page, where they can review the order and pay. This design keeps payment handling in the browser (where payment method SDKs and 3DS flows run), while the AI agent handles all the data-entry steps.
+
 #### Adding custom tools
 
 You can extend the server with your own tools by creating PHP classes annotated with the `#[McpTool]` attribute.
@@ -174,6 +208,38 @@ services:
         resource: '../src/Mcp/Tool/*'
         autoconfigure: true
 ```
+
+##### Returning images
+
+Tools can return images inline as MCP `ImageContent` blocks, which AI clients like Claude Desktop render visually.
+The plugin ships a `DownloadsImagesTrait` to handle downloading URLs and encoding them as base64 image content:
+
+```php
+use Mcp\Capability\Attribute\McpTool;
+use Mcp\Schema\Content\Content;
+use Mcp\Schema\Content\TextContent;
+use Sylius\McpServerPlugin\Tool\DownloadsImagesTrait;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+#[McpTool(name: 'my_tool', description: '...')]
+final readonly class MyTool
+{
+    use DownloadsImagesTrait;
+
+    public function __construct(private HttpClientInterface $httpClient) {}
+
+    /** @return Content[] */
+    public function __invoke(): array
+    {
+        $json = /* ... fetch JSON ... */;
+        $imageUrls = [/* ... extract image URLs from $json ... */];
+
+        return [new TextContent($json), ...$this->downloadImages($imageUrls)];
+    }
+}
+```
+
+The trait requires a `$httpClient` property (`HttpClientInterface`) on the using class. It fetches all URLs concurrently, reads the `Content-Type` header for the MIME type, and returns an array of `ImageContent` objects.
 
 ### Usage Example
 

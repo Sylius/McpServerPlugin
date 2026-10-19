@@ -1,3 +1,9 @@
+sylius_mcp_server_shop_checkout_resume:
+    path: /checkout/resume/{tokenValue}
+    methods: [GET]
+    defaults:
+        _controller: Sylius\McpServerPlugin\Controller\Shop\CheckoutResumeAction
+
 mcp:
     resource: .
     type: mcp

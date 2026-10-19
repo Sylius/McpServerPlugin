@@ -7,3 +7,13 @@ framework:
 twig:
     paths:
         '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
+
+doctrine:
+    orm:
+        enable_native_lazy_objects: true
+
+mcp:
+    servers:
+        sylius_shop:
+            http:
+                allowed_hosts: false
