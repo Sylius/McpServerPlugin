@@ -30,16 +30,19 @@ final class RequestAwareShopApiClient implements HttpClientInterface
 
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
-        // base_uri must be passed in per-request $options, not via withOptions().
-        // ScopingHttpClient::withOptions() only clones the inner transport and does not update
-        // $defaultOptionsByRegexp used for relative URL resolution, so a dynamic base_uri set
-        // through withOptions() would be silently ignored.
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request !== null && !isset($options['base_uri'])) {
-            $options['base_uri'] = $request->getSchemeAndHttpHost() . self::API_PATH;
+        return $this->client->request($method, $url, $this->injectBaseUriFromCurrentRequest($options));
+    }
+
+    private function injectBaseUriFromCurrentRequest(array $options): array
+    {
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        if ($currentRequest === null || isset($options['base_uri'])) {
+            return $options;
         }
 
-        return $this->client->request($method, $url, $options);
+        $options['base_uri'] = $currentRequest->getSchemeAndHttpHost() . self::API_PATH;
+
+        return $options;
     }
 
     public function stream(iterable|ResponseInterface $responses, ?float $timeout = null): ResponseStreamInterface
