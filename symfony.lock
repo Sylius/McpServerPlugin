@@ -70,9 +70,6 @@
             "ref": "1e012e04f573524ca83795cd19df9ea690adb604"
         }
     },
-    "knplabs/knp-gaufrette-bundle": {
-        "version": "v0.9.0"
-    },
     "knplabs/knp-menu-bundle": {
         "version": "v3.6.0"
     },

@@ -16,16 +16,32 @@ jobs:
     tests:
         runs-on: ubuntu-latest
 
-        name: "Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}"
+        name: "Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, ${{ matrix.database }}"
 
         strategy:
             fail-fast: false
             matrix:
-                php: ["8.4"]
-                symfony: ["^7.3"]
-                sylius: ["^2.1"]
+                php: ["8.3", "8.4"]
+                symfony: ["~7.4.0", "^8.0"]
+                sylius: ["~2.2.0", "~2.3.0"]
+                database: ["mysql:8.4", "mariadb:11.4", "postgres:16"]
                 node: ["22.x"]
-                mysql: ["8.4"]
+
+                exclude:
+                    # Symfony 8 requires PHP >= 8.4
+                    -
+                        php: "8.3"
+                        symfony: "^8.0"
+
+                    # Sylius 2.2 supports Symfony ^6.4 || ~7.4.0 only
+                    -
+                        sylius: "~2.2.0"
+                        symfony: "^8.0"
+
+                    # PHP 8.4 is only needed for the Symfony 8 combination
+                    -
+                        php: "8.4"
+                        symfony: "~7.4.0"
 
         env:
             APP_ENV: test
@@ -41,7 +57,7 @@ jobs:
                     build_type: "plugin"
                     cache_key: "${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}"
                     cache_restore_key: "${{ runner.os }}-php-${{ matrix.php }}-composer-"
-                    database: "mysql:${{ matrix.mysql }}"
+                    database: "${{ matrix.database }}"
                     node_version: "${{ matrix.node }}"
                     php_version: "${{ matrix.php }}"
                     sylius_version: "${{ matrix.sylius }}"
@@ -66,6 +82,10 @@ jobs:
             -
                 name: Validate container
                 run: vendor/bin/console lint:container
+
+            -
+                name: Validate Behat configuration
+                run: vendor/bin/behat --dry-run --allow-no-tests
 
             -
                 name: Validate database schema

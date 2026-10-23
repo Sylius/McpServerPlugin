@@ -22,12 +22,13 @@
 ## Requirements
 We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
 
-| Package       | Version |
-|---------------|---------|
-| PHP           | ^8.2    |
-| sylius/sylius | ^2.1    |
-| MySQL         | ^8.4    |
-| NodeJS        | ^20.x   |
+| Package         | Version              |
+|-----------------|----------------------|
+| PHP             | ^8.3                 |
+| sylius/sylius   | ^2.1                 |
+| symfony/symfony | ^7.4 \|\| ^8.0       |
+| MySQL           | ^8.4                 |
+| NodeJS          | ^20.x                |
 
 ---
 #### Beware!

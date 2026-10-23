@@ -1,5 +1,6 @@
 imports:
     - { resource: "@SyliusMcpServerPlugin/config/config.yaml" }
+    - { resource: "services_test.php" }
 
 framework:
     test: true
