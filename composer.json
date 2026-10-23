@@ -25,7 +25,7 @@
         "friends-of-behat/symfony-extension": "^2.6",
         "friends-of-behat/variadic-extension": "^1.6",
         "matthiasnoback/symfony-config-test": "^5.1",
-        "matthiasnoback/symfony-dependency-injection-test": "^5.1",
+        "matthiasnoback/symfony-dependency-injection-test": "^6.3",
         "nyholm/psr7": "^1.8",
         "phpstan/phpstan": "^1.12",
         "phpstan/phpstan-doctrine": "^1.3",
