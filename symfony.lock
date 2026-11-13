@@ -70,9 +70,6 @@
             "ref": "1e012e04f573524ca83795cd19df9ea690adb604"
         }
     },
-    "knplabs/knp-gaufrette-bundle": {
-        "version": "v0.9.0"
-    },
     "knplabs/knp-menu-bundle": {
         "version": "v3.6.0"
     },
@@ -350,15 +347,6 @@
         "files": [
             "config/packages/monolog.yaml"
         ]
-    },
-    "symfony/panther": {
-        "version": "2.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "b57a86d4d5b1e2a8cf9be757976e252fb411ea2a"
-        }
     },
     "symfony/property-info": {
         "version": "7.3",
