@@ -1,15 +1,15 @@
 parameters:
     level: max
+    # Guards the declared composer floor/ceiling: catches 8.3-only syntax
+    # (typed class constants, #[\Override]) that would break PHP 8.2.
+    phpVersion:
+        min: 80200
+        max: 80400
     reportUnmatchedIgnoredErrors: false
     paths:
         - src
         - tests/Behat
-
-    excludePaths:
-        # Makes PHPStan crash
-        - 'src/DependencyInjection/Configuration.php'
-
+        - tests/Unit
 
     ignoreErrors:
-        - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given\./'
         - identifier: missingType.iterableValue
