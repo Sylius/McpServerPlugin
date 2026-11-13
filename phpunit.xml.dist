@@ -7,7 +7,11 @@
     bootstrap="vendor/sylius/test-application/config/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="SyliusMcpServerPlugin Test Suite">
+        <testsuite name="unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+
+        <testsuite name="non-unit">
             <directory>tests/Functional</directory>
             <directory>tests/Integration</directory>
         </testsuite>
