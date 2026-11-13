@@ -13,17 +13,6 @@
         "symfony/mcp-bundle": "^0.15"
     },
     "require-dev": {
-        "behat/behat": "^3.14 || 4.0.0-alpha1",
-        "behat/mink": "^1.13",
-        "behat/mink-browserkit-driver": "^2.3",
-        "dmore/behat-chrome-extension": "^1.5",
-        "dmore/chrome-mink-driver": "^2.9",
-        "friends-of-behat/mink-debug-extension": "^2.2",
-        "friends-of-behat/mink-extension": "^2.7 || 3.0.0-alpha1",
-        "friends-of-behat/page-object-extension": "^0.3",
-        "friends-of-behat/suite-settings-extension": "^1.1",
-        "friends-of-behat/symfony-extension": "^2.6",
-        "friends-of-behat/variadic-extension": "^1.7",
         "matthiasnoback/symfony-config-test": "^5.1 || ^6.2",
         "matthiasnoback/symfony-dependency-injection-test": "^6.3",
         "nyholm/psr7": "^1.8",

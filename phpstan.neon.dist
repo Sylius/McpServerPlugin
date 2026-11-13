@@ -8,7 +8,6 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     paths:
         - src
-        - tests/Behat
         - tests/Unit
 
     ignoreErrors:
