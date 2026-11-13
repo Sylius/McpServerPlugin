@@ -22,12 +22,22 @@
 ## Requirements
 We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
 
-| Package       | Version |
-|---------------|---------|
-| PHP           | ^8.2    |
-| sylius/sylius | ^2.1    |
-| MySQL         | ^8.4    |
-| NodeJS        | ^20.x   |
+| Package         | Version              |
+|-----------------|----------------------|
+| PHP             | ^8.2                 |
+| sylius/sylius   | ^2.2                 |
+| symfony/symfony | ^7.4 \|\| ^8.0       |
+| MySQL           | ^8.4                 |
+| NodeJS          | ^20.x                |
+
+Not every combination works: Sylius 2.3 requires PHP 8.3+, and Symfony 8.0 requires
+PHP 8.4. The combinations covered by CI:
+
+| PHP | Sylius   | Symfony  |
+|-----|----------|----------|
+| 8.2 | 2.2      | 7.4      |
+| 8.3 | 2.2, 2.3 | 7.4      |
+| 8.4 | 2.3      | 7.4, 8.0 |
 
 ---
 #### Beware!

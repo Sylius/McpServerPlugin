@@ -1,6 +1,6 @@
 imports:
-    - vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml
-    - tests/Behat/Resources/suites/suites.yml
+    - vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.php
+    - tests/Behat/Resources/suites.php
 default:
     extensions:
         DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
