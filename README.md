@@ -24,18 +24,19 @@ We work on stable, supported and up-to-date versions of packages. We recommend y
 
 | Package         | Version              |
 |-----------------|----------------------|
-| PHP             | ^8.2                 |
+| PHP             | ^8.3                 |
 | sylius/sylius   | ^2.2                 |
 | symfony/symfony | ^7.4 \|\| ^8.0       |
-| MySQL           | ^8.4                 |
-| NodeJS          | ^20.x                |
+| MySQL           | ^8.0                 |
+| MariaDB         | ^10.11               |
+| PostgreSQL      | ^15                  |
+| NodeJS          | ^22.x                |
 
 Not every combination works: Sylius 2.3 requires PHP 8.3+, and Symfony 8.0 requires
-PHP 8.4. The combinations covered by CI:
+PHP 8.4. The combinations covered by CI (with MySQL 8.4, MySQL 8.0, MariaDB 10.11, MariaDB 11.4, PostgreSQL 15, 16, 17):
 
 | PHP | Sylius   | Symfony  |
 |-----|----------|----------|
-| 8.2 | 2.2      | 7.4      |
 | 8.3 | 2.2, 2.3 | 7.4      |
 | 8.4 | 2.3      | 7.4, 8.0 |
 
